@@ -41,4 +41,8 @@ public class SwerveSubsystem extends SubsystemBase
     
   }
 
+public SwerveDrive getSwerveDrive() {
+    return swerveDrive;
+}
+
 }

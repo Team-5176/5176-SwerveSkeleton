@@ -30,6 +30,7 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
+  SwerveSubsystem drivebase = new SwerveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
@@ -44,13 +45,14 @@ public class RobotContainer
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
-   * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-   */
+  SwerveInputStream driveAngularVelocity = new SwerveInputStream.of(drivebase.getSwerveDrive(),
+                                                                    () -> m_driverController.getLeftY() * -1.0,
+                                                                    () -> m_driverController.getLeftX() * -1.0)
+                                                                    .withControllerHeadingAxis(m_driverController::getRightX)
+                                                                    .deadband(OperatorConstants.DEADBAND)
+                                                                    .scaleTranslation(0.8),
+                                                                    .allianceRelativeControl(true);
+
   private void configureBindings()
   {
     
@@ -62,3 +64,5 @@ public class RobotContainer
     drivebase.setMotorBrake(brake);
   }
 }
+
+
