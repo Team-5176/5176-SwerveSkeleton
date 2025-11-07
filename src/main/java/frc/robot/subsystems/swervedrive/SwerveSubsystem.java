@@ -38,7 +38,6 @@ public class SwerveSubsystem extends SubsystemBase
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-      SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
   }
 
   public SwerveDrive getSwerveDrive() {
