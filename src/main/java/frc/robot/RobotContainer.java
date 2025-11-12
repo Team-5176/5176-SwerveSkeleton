@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,10 +24,14 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
+  // create swerve subsystem. (Just this line automatically runs the constructor)
   SwerveSubsystem drivebase = new SwerveSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverXbox = new CommandXboxController(0);
+
+  // Establishing the Auto Chooser that will appear on the SmartDashboard
+  private final SendableChooser<Command> autoChooser;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -35,6 +42,13 @@ public class RobotContainer
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+
+    //Set the default auto and put the autoChoser on the SmartDashboard
+    autoChooser = AutoBuilder.buildAutoChooser("New Auto"); // A default auto will be run in autonomous if a different auto is not selected
+                                                                                 // This auto has only a path that will drive forward 0.5M from the start line
+                                                                                 // The usingPathPlanner boolean must be set to true for this auto to run
+
+    SmartDashboard.putData("Auto Chooser", autoChooser); 
   }
 
 
@@ -52,10 +66,20 @@ public class RobotContainer
 
   Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+
   
   private void configureBindings()
   {}
 
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand()
+  {
+      return autoChooser.getSelected();
+  }
 }
 
 
