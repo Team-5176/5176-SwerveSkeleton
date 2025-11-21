@@ -35,7 +35,7 @@ public class RobotContainer
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    drivebase.zeroGyro();
+    drivebase.zeroGyroWithAlliance();
   }
 
 
