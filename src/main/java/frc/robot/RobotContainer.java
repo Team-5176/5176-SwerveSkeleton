@@ -44,7 +44,8 @@ public class RobotContainer
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
     //Set the default auto and put the autoChoser on the SmartDashboard
-    autoChooser = AutoBuilder.buildAutoChooser("New Auto"); // A default auto will be run in autonomous if a different auto is not selected
+    drivebase.setupPathPlanner();
+    autoChooser = AutoBuilder.buildAutoChooser("EZ Auto"); // A default auto will be run in autonomous if a different auto is not selected
                                                                                  // This auto has only a path that will drive forward 0.5M from the start line
                                                                                  // The usingPathPlanner boolean must be set to true for this auto to run
 
